@@ -30,6 +30,8 @@ Accounts.registerLoginHandler(function (options) {
 Accounts.LinkUserFromExternalService = function (serviceName, serviceData, options) {
   options = _.clone(options || {});
 
+	console.log('LinkUserFromExternalService', serviceName, serviceData, options, 'userId:', Meteor.userId());
+	
   //We probably throw an error instead of call update or create here.
   if (!Meteor.userId())
     return new Meteor.Error("You must be logged in to use LinkUserFromExternalService");
@@ -52,8 +54,10 @@ Accounts.LinkUserFromExternalService = function (serviceName, serviceData, optio
   var existingUsers = Meteor.users.find(checkExistingSelector).fetch();
   if (existingUsers.length) {
     existingUsers.forEach(function(existingUser) {
-      if (existingUser._id !== Meteor.userId())
-        throw new Meteor.Error('This social account is already in use by other user');
+      if (existingUser._id !== Meteor.userId()) {
+				console.warn('error user', existingUsers.length, '\nselector:', checkExistingSelector, '\nuser:', user);
+        throw new Meteor.Error('This social account is already in use by other user', existingUsers.length, '\nselector:', checkExistingSelector);
+			}
     });
   }
 

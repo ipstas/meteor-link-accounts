@@ -1,5 +1,6 @@
 # Meteor Link Accounts
 A Meteor package designed to links social network accounts without any hassles.
+Forked from https://atmospherejs.com/bozhao/link-accounts
 
 ## Next Steps
 * Look into work with Apollo (graphQL)
